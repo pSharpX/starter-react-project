@@ -5,17 +5,66 @@ import posed, { PoseGroup } from "react-pose";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import AddToCart from '../shop/AddToCart';
+
+const ConfirmButton = ({ className = '', Text = 'Great!', Icon = 'thumbs-up', ...rest }) => {
+    return (
+        <div className={className} {...rest}>
+            <FontAwesomeIcon icon={Icon} /> {Text}
+        </div>
+    );
+};
+
+const CancelButton = ({ className = '', Text = '', Icon = 'thumbs-down', ...rest }) => {
+    return (
+        <div className={className} {...rest}>
+            <FontAwesomeIcon icon={Icon} /> {Text}
+        </div>
+    );
+};
+
+const Title = styled('strong')`
+    text-decoration: underline;
+`;
 
 export default class Item extends Component {
     AnimatedDiv = posed.div({
         on: { opacity: 1, y: 0 },
         off: { opacity: 0, y: 30, transition: { type: "spring" } }
     });
+    MySwal = withReactContent(Swal);
     componentDidMount = () => {
         if (this.rootNode)
             window.Holder.run({
                 images: this.rootNode
             });
+    }
+    addToCart = () => {
+        const Item = this.props.Input;
+        this.MySwal.fire({
+            title: <Title>{Item.name}</Title>,
+            type: 'info',
+            html:
+                <AddToCart
+                    Item={Item}
+                    confirmButtonHandler={this.confirmAddToCart}
+                    cancelButtonHandler={this.MySwal.clickCancel} />,
+            showCloseButton: true,
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: true,
+            confirmButtonText: <ConfirmButton />,
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+            cancelButtonText: <CancelButton />,
+            cancelButtonAriaLabel: 'Thumbs down',
+            footer: '<a href>Why do I have this issue?</a>'
+        });
+    }
+    confirmAddToCart = (state) => {
+        console.log(state);
+        this.MySwal.clickConfirm();
     }
     render() {
         const Item = this.props.Input;
@@ -34,7 +83,7 @@ export default class Item extends Component {
                     <p className="card-text">{Item.category.name}</p>
                     <div className="d-flex justify-content-between">
                         <div className="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" className="btn btn-info">
+                            <button type="button" className="btn btn-info" onClick={this.addToCart}>
                                 <FontAwesomeIcon icon="cart-plus" />
                             </button>
                             <button type="button" className="btn btn-info">

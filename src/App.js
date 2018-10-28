@@ -30,7 +30,10 @@ import {
   faUndoAlt,
   faDownload,
   faFileUpload,
-  faUpload
+  faUpload,
+  faThumbsUp,
+  faThumbsDown,
+  faMinus
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faStroopwafel)
@@ -50,7 +53,8 @@ library.add(faPlusSquare, faPlusCircle, faRedo, faRedoAlt, faFolderOpen, faUndo,
   faUndoAlt, faDownload,
   faFileUpload,
   faUpload,faEdit,
-  faTrash, faTrashAlt);
+  faTrash, faTrashAlt,faThumbsUp,
+  faThumbsDown, faMinus);
 // import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
 // library.add(faEnvelope, faKey);
