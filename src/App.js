@@ -50,16 +50,11 @@ library.add(faHeart);
 library.add(faStar);
 library.add(faSave);
 library.add(faPlusSquare, faPlusCircle, faRedo, faRedoAlt, faFolderOpen, faUndo,
-  faUndoAlt, faDownload,
-  faFileUpload,
-  faUpload,faEdit,
-  faTrash, faTrashAlt,faThumbsUp,
+  faUndoAlt, faDownload, faFileUpload, faUpload,faEdit, faTrash, faTrashAlt,faThumbsUp, 
   faThumbsDown, faMinus);
-// import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-
-// library.add(faEnvelope, faKey);
 
 class App extends Component {
+  state = { loading: true, authenticated: false, user: null};
   render() {
     return (
       <div className="App">

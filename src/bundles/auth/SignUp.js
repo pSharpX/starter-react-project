@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "./SignUp.css";
+import './SignUp.css';
 
-export default class LogIn extends Component {
+export default class SignUp extends Component {
   componentDidMount = () => {};
   render() {
-    const { onSubmit } = this.props;
+    const {onSubmit} = this.props; 
     return (
       <form className="form-signin" onSubmit={onSubmit}>
         <div className="text-center mb-4">

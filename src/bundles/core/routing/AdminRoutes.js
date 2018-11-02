@@ -8,18 +8,19 @@ import Checkout from '../../shop/Checkout';
 import CreateItemPage from '../../pages/item/CreateItemPage';
 import UpdateItemPage from '../../pages/item/UpdateItemPage';
 import RemoveItemPage from '../../pages/item/RemoveItemPage';
+import PrivateRoute from './PrivateRoute';
 
 const AdminRoutes = () => (
     <main>
         <Switch>
-            <Route exact path='/' component={Home} />
+            <PrivateRoute exact path="/" component={Home} authenticated={false}/>
             <Route path='/about' component={About} />
             <Route path='/contact' component={Contact} />
-            <Route exact path='/item/create' component={CreateItemPage} />
+            <PrivateRoute exact path='/item/create' component={CreateItemPage} authenticated={false} />
             <Route exact path='/item/edit/:id' component={UpdateItemPage} />
             <Route exact path='/item/delete/:id' component={RemoveItemPage} />
             <Route exact path='/item/:id' component={ItemDetail} />            
-            <Route path='/checkout' component={Checkout} />
+            <Route path='/checkout' component={Checkout} />            
         </Switch>
     </main>
 )
