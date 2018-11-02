@@ -10,12 +10,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import LogIn from './bundles/auth/LogIn';
 import SignUp from './bundles/auth/SignUp';
+import SignUpContainer from './bundles/pages/auth/SignUpContainer';
+import LogInContainer from './bundles/pages/auth/LogInContainer';
 
 ReactDOM.render((
     <BrowserRouter>
         <Switch>
-            <Route exact path="/login" component={LogIn} />
-            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={LogInContainer} />
+            <Route exact path="/signup" component={SignUpContainer} />
             <Route exact path="/" component={App} />
         </Switch>        
     </BrowserRouter>), document.getElementById('root'));
