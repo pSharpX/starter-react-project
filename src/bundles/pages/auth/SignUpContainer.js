@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import app from "../../../base";
 import SignUp from "../../auth/SignUp";
-import {auth} from '../../core/auth';
+import { auth } from '../../core/auth';
 
 class SignUpContainer extends Component {
-  componentDidMount = () => {};
+  componentDidMount = () => { };
   handleSignUp = async (event) => {
     event.preventDefault();
     const { inputEmail, inputPassword } = event.target.elements;

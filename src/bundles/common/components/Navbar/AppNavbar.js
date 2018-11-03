@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import posed, { PoseGroup } from "react-pose";
 import { render, ReactDOM } from "react-dom";
 import styled from "styled-components";
+import { SecureButton } from '../../../core/routing/PrivateRoute';
 
 const AppIconLink = styled(Link)`
     background-color: #f06659;
@@ -68,6 +69,9 @@ export default class AppNavbar extends Component {
                                 <Link className="dropdown-item" to="/edit-profile">Edit Profile</Link>
                                 <Link className="dropdown-item" to="/logout">Log Out</Link>
                             </div>
+                        </li>
+                        <li className="nav-item">
+                            <SecureButton />
                         </li>
                     </ul>
                     <SearchBox onSearch={this.handlerSearch} />

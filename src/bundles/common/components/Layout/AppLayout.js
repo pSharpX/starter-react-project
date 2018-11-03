@@ -4,7 +4,7 @@ import AppMain from '../Main/AppMain';
 export default class AppLayout extends Component {
     render() {
         return (
-            <main role="main" className="container">                
+            <main role="main" className="container">
                 <AppMain />
             </main>
         );

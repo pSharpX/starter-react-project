@@ -6,8 +6,10 @@ import ListView from './ListView';
 import API from '../core/api';
 import CardView from './CardView';
 import CircleLoader from '../common/components/Loader/CircleLoader';
+import { connect } from 'react-redux';
+import * as actions from '../core/actions/actions';
 
-export default class ItemList extends Component {
+export class ItemList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,24 +23,26 @@ export default class ItemList extends Component {
     }
     componentDidMount = () => {
         const { viewMode } = this.state;
-        this.setState({
-            loading: true,
-        });
-        API.get(`item/`)
-            .then(res => {
-                const items = res.data;
-                setTimeout(() => {
-                    this.setState({
-                        items,
-                        loading: false,
-                    });
-                }, 1e3);
-            })
-            .catch((error) => {
-                this.setState({
-                    loading: false
-                });
-            });
+        const { onFetchItems } = this.props;
+        onFetchItems();
+        // this.setState({
+        //     loading: true,
+        // });
+        // API.get(`item/`)
+        //     .then(res => {
+        //         const items = res.data;
+        //         setTimeout(() => {
+        //             this.setState({
+        //                 items,
+        //                 loading: false,
+        //             });
+        //         }, 1e3);
+        //     })
+        //     .catch((error) => {
+        //         this.setState({
+        //             loading: false
+        //         });
+        //     });
     }
     componentDidUpdate = (prevProps, prevState) => {
         const { viewMode } = this.state;
@@ -54,7 +58,9 @@ export default class ItemList extends Component {
     }
     render() {
         const { DefaultViewMode, ShowViewModeToolbar } = this.props;
-        const { items, viewMode, loading } = this.state;
+        // const { items, viewMode, loading } = this.state;
+        const { viewMode, loading } = this.state;
+        const items = this.props.all;
         //const viewMode = this.state.viewMode || DefaultViewMode;
         const Collection = items.map((item, key) => <Item key={item.Id} ViewMode={viewMode} Input={item} />);
         const cardViewContainer = <CardView pose={loading ? "off" : "on"}>{Collection}</CardView>;
@@ -107,3 +113,8 @@ export default class ItemList extends Component {
 //     DefaultViewMode: "card-view",
 //     ShowViewModeToolbar: true
 // };
+const mapStateToProps = ({ items, auth }) => ({ ...items, ...auth });
+const mapDispatchToProps = (dispatch) => ({
+    onFetchItems: () => { dispatch(actions.fetchItems()) }
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);

@@ -9,20 +9,23 @@ import CreateItemPage from '../../pages/item/CreateItemPage';
 import UpdateItemPage from '../../pages/item/UpdateItemPage';
 import RemoveItemPage from '../../pages/item/RemoveItemPage';
 import PrivateRoute from './PrivateRoute';
+import { connect } from 'react-redux';
 
-const AdminRoutes = () => (
+export const AdminRoutes = ({ authenticated }) => (
     <main>
-        <Switch>
-            <PrivateRoute exact path="/" component={Home} authenticated={false}/>
-            <Route path='/about' component={About} />
-            <Route path='/contact' component={Contact} />
-            <PrivateRoute exact path='/item/create' component={CreateItemPage} authenticated={false} />
-            <Route exact path='/item/edit/:id' component={UpdateItemPage} />
-            <Route exact path='/item/delete/:id' component={RemoveItemPage} />
-            <Route exact path='/item/:id' component={ItemDetail} />            
-            <Route path='/checkout' component={Checkout} />            
-        </Switch>
+        <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
+        <Route path='/about' component={About} />
+        <Route path='/contact' component={Contact} />
+        <PrivateRoute path='/item/create' component={CreateItemPage} authenticated={authenticated} />
+        <Route exact path='/item/edit/:id' component={UpdateItemPage} />
+        <Route exact path='/item/delete/:id' component={RemoveItemPage} />
+        <Route exact path='/item/:id' component={ItemDetail} />
+        <Route path='/checkout' component={Checkout} />
     </main>
 )
 
-export default AdminRoutes;
+const mapStateToProps = ({ auth }) => ({
+    authenticated: auth.authenticated
+});
+
+export default connect(mapStateToProps)(AdminRoutes);

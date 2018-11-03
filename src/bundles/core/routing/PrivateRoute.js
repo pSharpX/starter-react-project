@@ -1,42 +1,53 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { withRouter } from "react-router";
-import {auth} from '../auth';
+import { auth } from '../auth';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import posed, { PoseGroup } from "react-pose";
+import { render, ReactDOM } from "react-dom";
+import styled from "styled-components";
+
+const Title = styled("p")`
+    color: #ccc;
+`;
 
 const PrivateRoute = ({
     component: Component,
     authenticated,
     ...rest
-  }) => {
-      return (
+}) => {
+    return (
         <Route
             {...rest}
             render={(props) =>
                 authenticated === true ? (
-                <Component {...props} {...rest} />
+                    <Component {...props} {...rest} />
                 ) : (
-                <Redirect to="/login" />
-                )
+                        <Redirect to="/login" />
+                    )
             }
-            />
-      );
+        />
+    );
 };
 
-export const ProtectedRoute = ({component: Component, ...rest}) => (
+const SecureRoute = ({ component: Component, authenticated, ...rest }) => (
     <Route {...rest} render={(props) => (
-        true === true ? 
-        <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location }}} />   
+        authenticated === true ?
+            <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
     )} />
 );
 
-export const AuthButton = withRouter(({history}) => (
-    true === true ? 
+const AuthButton = ({ authenticated, history, ...rest }) => (
+    authenticated === true ?
         (
-        <p>Wlcome <button onClick={() => {
-            auth.doSignOut(); history.push('/');
-            }}>Sign out</button></p>
-            ) : (<p>You are not logged in.</p>)
-        
-));
+            <Title>Welcome <button className="btn btn-primary btn-sm" onClick={() => {
+                auth.doSignOut();
+                history.push('/');
+            }}><FontAwesomeIcon icon="sign-out-alt" /> Sign out</button></Title>
+        ) : (<p>You are not logged in.</p>)
+);
 
 export default PrivateRoute;
+export const ProtectedRoute = connect(({ auth }) => ({ authenticated: auth.authenticated }))(SecureRoute);
+export const SecureButton = withRouter(connect(({ auth }) => ({ authenticated: auth.authenticated }))(AuthButton));

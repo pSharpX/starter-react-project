@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import posed, { PoseGroup } from "react-pose";
+import { render, ReactDOM } from "react-dom";
+import styled from "styled-components";
 import './SignUp.css';
 
 export default class SignUp extends Component {
-  componentDidMount = () => {};
+  componentDidMount = () => { };
   render() {
-    const {onSubmit} = this.props; 
+    const { onSubmit } = this.props;
     return (
       <form className="form-signin" onSubmit={onSubmit}>
         <div className="text-center mb-4">
@@ -54,6 +58,7 @@ export default class SignUp extends Component {
           </label>
         </div>
         <button className="btn btn-lg btn-primary btn-block" type="submit">
+          <FontAwesomeIcon icon="sign-in-alt" className="mr-2" />
           Sign in
         </button>
         <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>

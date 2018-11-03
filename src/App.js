@@ -33,7 +33,9 @@ import {
   faUpload,
   faThumbsUp,
   faThumbsDown,
-  faMinus
+  faMinus,
+  faSignInAlt,
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faStroopwafel)
@@ -51,7 +53,7 @@ library.add(faStar);
 library.add(faSave);
 library.add(faPlusSquare, faPlusCircle, faRedo, faRedoAlt, faFolderOpen, faUndo,
   faUndoAlt, faDownload, faFileUpload, faUpload,faEdit, faTrash, faTrashAlt,faThumbsUp, 
-  faThumbsDown, faMinus);
+  faThumbsDown, faMinus, faSignInAlt, faSignOutAlt);
 
 class App extends Component {
   state = { loading: true, authenticated: false, user: null};
@@ -59,7 +61,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <AppLayout></AppLayout>
+        <AppLayout>{this.props.children}</AppLayout>
         <Footer />
       </div>
     );

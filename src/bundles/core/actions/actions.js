@@ -1,41 +1,82 @@
+import * as api from '../api';
 import * as actionTypes from '../constants/actionTypes';
 
-export const fetchItems = () => {
+export const userAuthenticationActionCreator = (isAuthenticated) => {
+    return {
+        type: actionTypes.USER_AUTHENTICATION,
+        authenticated: isAuthenticated
+    }
+};
+
+export const fetchItemsActionCreator = (items) => {
     return {
         type: actionTypes.FETCH_ITEMS,
-        loading: true
+        items
+    };
+};
+export const fetchItems = () => (dispatch, getState) => {
+    dispatch(fetchItemStartedActionCreator());
+    api.fetchItems()
+        .then((res) => dispatch(fetchItemsSuccessActionCreator(res.data)))
+        .catch((error) => dispatch(fetchItemFailureActionCreator(error)));
+};
+export const fetchItemStartedActionCreator = () => {
+    return {
+        type: actionTypes.FETCH_ITEM_STARTED
+    };
+};
+export const fetchItemSuccessActionCreator = (item) => {
+    return {
+        type: actionTypes.FETCH_ITEM_SUCCESS,
+        payload: {
+            ...item
+        }
+    };
+};
+export const fetchItemsSuccessActionCreator = (items) => {
+    return {
+        type: actionTypes.FETCH_ITEMS_SUCCESS,
+        payload: [
+            ...items
+        ]
+    };
+};
+export const fetchItemFailureActionCreator = (error) => {
+    return {
+        type: actionTypes.FETCH_ITEM_FAILURE,
+        error
     };
 };
 
-export const searchItem = (text) => {
+export const searchItemActionCreator = (text) => {
     return {
         type: actionTypes.SEARCH_ITEM,
         text
     };
 };
 
-export const fetchItem = (id) => {
+export const fetchItemActionCreator = (item) => {
     return {
         type: actionTypes.FETCH_ITEM,
-        id
+        item
     };
 };
 
-export const createItem = (newItem) => {
+export const createItemActionCreator = (newItem) => {
     return {
         type: actionTypes.CREATE_ITEM,
         item: newItem
     };
 };
 
-export const updateItem = (modifiedItem) => {
+export const updateItemActionCreator = (modifiedItem) => {
     return {
         type: actionTypes.UPDATE_ITEM,
         item: modifiedItem
     };
 };
 
-export const removeItem = (id) => {
+export const removeItemActionCreator = (id) => {
     return {
         type: actionTypes.REMOVE_ITEM,
         id

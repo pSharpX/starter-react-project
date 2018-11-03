@@ -1,11 +1,15 @@
-import redux from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
+import { authReducer, itemReducer } from '../reducers/reducers';
 
 export const configure = () => {
-    const reducer = redux.combineReducers({
-
+    const reducer = combineReducers({
+        auth: authReducer,
+        items: itemReducer
     });
-    var store = redux.createStore(reducer, redux.compose(
-        window.devToolsExtension ? window.devToolsExtension(): f => f
+    var store = createStore(reducer, compose(
+        applyMiddleware(thunk),
+        window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
 
     return store;
