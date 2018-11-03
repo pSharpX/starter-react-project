@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { render } from "react-dom";
+import API from '../core/api';
 import posed, { PoseGroup } from "react-pose";
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,12 +37,42 @@ export default class Item extends Component {
     });
     MySwal = withReactContent(Swal);
     componentDidMount = () => {
-        if (this.rootNode)
+        if (this.rootNode) 
             window.Holder.run({
                 images: this.rootNode
             });
     }
-    addToCart = () => {
+    addToFavouritesHandler = (event) => {
+        this.MySwal.fire({
+            type: 'success',
+            title: 'Your work has been saved',
+            inputValue: this.addToFavourites(),
+            showCancelButton: false,
+        })
+            .then((res) => {
+                if(res.value)
+                    console.log(res.value);
+            });
+    }
+    addToFavourites = () => {
+        const Item = this.props.Input;
+        return new Promise((resolve, reject) => {
+            API.get(`item/${Item.Id}`)
+                .then((res) => new Promise(resolve1 => setTimeout(() => {
+                    resolve1(res);
+                }, 2000)))
+                .then((res) => JSON.stringify(res.data))
+                .then((json) => {
+                    const id = setInterval(() => {
+                        this.MySwal.clickConfirm();
+                        clearInterval(id);
+                    }, 500);
+                    return resolve(json);
+                })
+                .catch((error) => reject(error));
+        });
+    }
+    addToCartHandler = (event) => {
         const Item = this.props.Input;
         this.MySwal.fire({
             title: <Title>{Item.name}</Title>,
@@ -66,6 +97,7 @@ export default class Item extends Component {
         console.log(state);
         this.MySwal.clickConfirm();
     }
+    addToCart = (item) => { }
     render() {
         const Item = this.props.Input;
         // const Entering = this.props.Entering;
@@ -83,10 +115,10 @@ export default class Item extends Component {
                     <p className="card-text">{Item.category.name}</p>
                     <div className="d-flex justify-content-between">
                         <div className="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" className="btn btn-info" onClick={this.addToCart}>
+                            <button type="button" className="btn btn-info" onClick={this.addToCartHandler}>
                                 <FontAwesomeIcon icon="cart-plus" />
                             </button>
-                            <button type="button" className="btn btn-info">
+                            <button type="button" className="btn btn-info" onClick={this.addToFavouritesHandler}>
                                 <FontAwesomeIcon icon="heart" />
                             </button>
                             <Link to={`item/${Item.Id}`} className="btn btn-info">
