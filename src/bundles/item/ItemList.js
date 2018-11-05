@@ -59,8 +59,9 @@ export class ItemList extends Component {
     render() {
         const { DefaultViewMode, ShowViewModeToolbar } = this.props;
         // const { items, viewMode, loading } = this.state;
-        const { viewMode, loading } = this.state;
+        const { viewMode } = this.state;
         const items = this.props.all;
+        const loading = this.props.fetching;
         //const viewMode = this.state.viewMode || DefaultViewMode;
         const Collection = items.map((item, key) => <Item key={item.Id} ViewMode={viewMode} Input={item} />);
         const cardViewContainer = <CardView pose={loading ? "off" : "on"}>{Collection}</CardView>;
