@@ -16,10 +16,11 @@ const authInitialState = {
 export const authReducer = (state = authInitialState, action) => {
     switch (action.type) {
         case actionTypes.USER_AUTHENTICATION: {
-            const { authenticated } = action;
+            const { authenticated, user } = action;
             return {
                 ...state,
-                authenticated
+                authenticated,
+                user,
             };
         }
         default:

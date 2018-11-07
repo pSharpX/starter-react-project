@@ -1,10 +1,11 @@
 import * as api from '../api';
 import * as actionTypes from '../constants/actionTypes';
 
-export const userAuthenticationActionCreator = (isAuthenticated) => {
+export const userAuthenticationActionCreator = ({isAuthenticated, user}) => {
     return {
         type: actionTypes.USER_AUTHENTICATION,
-        authenticated: isAuthenticated
+        authenticated: isAuthenticated,
+        user
     }
 };
 

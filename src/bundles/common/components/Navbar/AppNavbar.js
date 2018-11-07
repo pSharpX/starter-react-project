@@ -7,6 +7,7 @@ import posed, { PoseGroup } from "react-pose";
 import { render, ReactDOM } from "react-dom";
 import styled from "styled-components";
 import { SecureButton } from '../../../core/routing/PrivateRoute';
+import withAutorization from '../../../core/auth/withAutorization';
 
 const AppIconLink = styled(Link)`
     background-color: #f06659;
@@ -25,7 +26,7 @@ const AppIconLink = styled(Link)`
 //     }
 // });
 
-export default class AppNavbar extends Component {
+class AppNavbar extends Component {
     componentDidMount = () => {
         $('[data-toggle="offcanvas"]').on('click', function () {
             $('.offcanvas-collapse').toggleClass('open')
@@ -80,3 +81,7 @@ export default class AppNavbar extends Component {
         );
     }
 }
+
+const authCondition = (authUser) => !!authUser;
+
+export default withAutorization(authCondition)(AppNavbar);

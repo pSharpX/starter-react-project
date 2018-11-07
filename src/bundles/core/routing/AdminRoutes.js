@@ -11,16 +11,18 @@ import RemoveItemPage from '../../pages/item/RemoveItemPage';
 import PrivateRoute from './PrivateRoute';
 import { connect } from 'react-redux';
 
-export const AdminRoutes = ({ authenticated }) => (
+export const AdminRoutes = ({ authenticated, match }) => (
     <main>
-        <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
-        <Route path='/about' component={About} />
-        <Route path='/contact' component={Contact} />
-        <PrivateRoute path='/item/create' component={CreateItemPage} authenticated={authenticated} />
-        <Route exact path='/item/edit/:id' component={UpdateItemPage} />
-        <Route exact path='/item/delete/:id' component={RemoveItemPage} />
-        <Route exact path='/item/:id' component={ItemDetail} />
-        <Route path='/checkout' component={Checkout} />
+        <Switch>
+            <PrivateRoute path={`${match.url}/`} component={Home} authenticated={authenticated} />
+            <Route path={`${match.url}about`} component={About} />
+            <Route path={`${match.url}contact`} component={Contact} />
+            <PrivateRoute path={`${match.url}item/create`} component={CreateItemPage} authenticated={authenticated} />
+            <Route path={`${match.url}item/edit/:id`} component={UpdateItemPage} />
+            <Route path={`${match.url}item/delete/:id`} component={RemoveItemPage} />
+            <Route path={`${match.url}item/:id`} component={ItemDetail} />
+            <Route path={`${match.url}checkout`} component={Checkout} />
+        </Switch>
     </main>
 )
 
