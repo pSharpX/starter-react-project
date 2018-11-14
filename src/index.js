@@ -4,23 +4,15 @@ import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, Redirect } from 'react-router';
-import { BrowserRouter, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Amplify from "aws-amplify";
 import * as configureStore from './bundles/core/store/configureStore';
 import { auth } from './bundles/core/auth/firebase';
 import * as actions from './bundles/core/actions/actions';
+import Amplify from "aws-amplify";
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import LogIn from './bundles/auth/LogIn';
-import SignUp from './bundles/auth/SignUp';
-import SignUpContainer from './bundles/pages/auth/SignUpContainer';
-import LogInContainer from './bundles/pages/auth/LogInContainer';
-import { AdminRoutes } from './bundles/core/routing/AdminRoutes';
-import NotFound from './bundles/common/components/Error/NotFound';
 import config from './bundles/core/config/aws-config';
+import AppBase from './AppBase';
 
 Amplify.configure({
     Auth: {
@@ -67,14 +59,7 @@ auth.onAuthStateChanged((user) => {
 
 ReactDOM.render((
     <Provider store={store}>
-        <BrowserRouter>
-            <Switch>
-                <Route path="/login" component={LogInContainer} />
-                <Route path="/signup" component={SignUpContainer} />
-                <Route exact path="" component={App} />
-                <Route path="*" component={NotFound} />
-            </Switch>
-        </BrowserRouter>
+        <AppBase />
     </Provider>), document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
