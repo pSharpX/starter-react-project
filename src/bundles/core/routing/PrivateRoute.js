@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { withRouter } from "react-router";
 import { auth } from '../auth';
+import * as awsAuth from '../auth/aws-auth';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import posed, { PoseGroup } from "react-pose";
@@ -15,19 +16,25 @@ const Title = styled("p")`
 const PrivateRoute = ({
     component: Component,
     authenticated,
+    authenticating,
     ...rest
 }) => {
     return (
         <Route {...rest} render={(props) =>
-            authenticated === true ? (
-                <Component {...props} {...rest} />
-            ) : (
-                    <Redirect to="/login" />
-                )
+            (authenticating) ? <div>Authenticating...</div> : (
+                authenticated === true ? (
+                    <Component {...props} {...rest} />
+                ) : (
+                        // <Redirect to="/login" />
+                        null
+                    )
+            )
         }
         />
     );
 };
+
+// <Redirect to="/login" />
 
 const SecureRoute = ({ component: Component, authenticated, ...rest }) => (
     <Route {...rest} render={(props) => (
@@ -40,7 +47,8 @@ const AuthButton = ({ authenticated, history, ...rest }) => (
     authenticated === true ?
         (
             <Title>Welcome <button className="btn btn-primary btn-sm" onClick={() => {
-                auth.doSignOut();
+                // auth.doSignOut();
+                awsAuth.doSignOut();
                 history.push('/');
             }}><FontAwesomeIcon icon="sign-out-alt" /> Sign out</button></Title>
         ) : (<p>You are not logged in.</p>)

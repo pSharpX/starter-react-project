@@ -3,6 +3,7 @@ import logo from '../../../logo.svg';
 import SimpleLayout from '../components/Layout/SimpleLayout';
 import API from '../../core/api';
 import ItemList from '../../item/ItemList';
+import { SecureButton } from '../../core/routing/PrivateRoute';
 
 export default class Home extends Component {
     constructor(props){
@@ -23,7 +24,8 @@ export default class Home extends Component {
     render() {
         return (
             <SimpleLayout
-                HeaderBox={<span>This is the header box section</span>}>                              
+                HeaderBox={<span>This is the header box section</span>}>
+                <SecureButton />
                 <ItemList />
             </SimpleLayout>
         );

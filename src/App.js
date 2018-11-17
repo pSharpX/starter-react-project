@@ -22,3 +22,4 @@ class App extends Component {
 
 // export default withAuthentication(App);
 export default withAwsAuthentication(App);
+// export default App;

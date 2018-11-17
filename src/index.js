@@ -43,19 +43,20 @@ store.subscribe(() => {
     console.log(store.getState());
 });
 
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        store.dispatch(actions.userAuthenticationActionCreator({
-            isAuthenticated: true,
-            user
-        }));
-    } else {
-        store.dispatch(actions.userAuthenticationActionCreator({
-            isAuthenticated: false,
-            user: undefined
-        }));
-    }
-});
+/** Disable for firebase authentication */
+// auth.onAuthStateChanged((user) => {
+//     if (user) {
+//         store.dispatch(actions.userAuthenticationActionCreator({
+//             isAuthenticated: true,
+//             user
+//         }));
+//     } else {
+//         store.dispatch(actions.userAuthenticationActionCreator({
+//             isAuthenticated: false,
+//             user: undefined
+//         }));
+//     }
+// });
 
 ReactDOM.render((
     <Provider store={store}>

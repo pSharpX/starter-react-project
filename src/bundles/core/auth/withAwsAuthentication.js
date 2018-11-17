@@ -3,6 +3,7 @@ import AuthUserContext from './authUserContext';
 import config from '../config/aws-config';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
+import * as actions from '../../core/actions/actions';
 
 const withAwsAuthentication = (Component) => {
     class WithAwsAuthentication extends Component {
@@ -10,29 +11,35 @@ const withAwsAuthentication = (Component) => {
         constructor(props) {
             super(props);
             this.state = {
-                authUser: null,
-                isAuthenticating: true,
+                authUser: undefined
             };
         }
+        componentWillMount = () => { }
         componentDidMount = async () => {
             this.loadFacebookSDK();
 
-            const { user } = this.props;
-            this.setState({ authUser: user });
+            const { changeUserAuthenticationState, startUserAuthentication, finishUserAuthentication } = this.props;
 
             try {
-                await Auth.currentAuthenticatedUser();
-                // this.userHasAuthenticated(true);
+                startUserAuthentication();
+                const user = await Auth.currentAuthenticatedUser();
+                changeUserAuthenticationState({
+                    isAuthenticated: true,
+                    user
+                });
+                finishUserAuthentication();
             } catch (e) {
+                finishUserAuthentication();
                 if (e !== "not authenticated") {
+                    changeUserAuthenticationState({
+                        isAuthenticated: false,
+                        user: undefined
+                    });
                     alert(e);
                 }
             }
-            this.setState({ isAuthenticating: false });
         }
-        componentWillUnmount = () => {
-
-        }
+        componentWillUnmount = () => { }
         loadFacebookSDK = () => {
             window.fbAsyncInit = function () {
                 // window.FB.init({
@@ -60,9 +67,9 @@ const withAwsAuthentication = (Component) => {
         }
 
         render() {
-            const { authUser, isAuthenticating } = this.state;
+            const { user: authUser, authenticating } = this.props;            
             return (
-                isAuthenticating ? <div>Authenticating ...</div> :
+                authenticating ? <div>Authenticating ...</div> :
                     <AuthUserContext.Provider value={authUser}>
                         <Component {...this.props} />
                     </AuthUserContext.Provider>
@@ -70,10 +77,17 @@ const withAwsAuthentication = (Component) => {
         }
     }
     const mapStateToProps = ({ auth }) => ({
+        authenticating: auth.authenticating,
+        authenticated: auth.authenticated,
         user: auth.user
     });
+    const mapDispatchToProps = (dispatch) => ({
+        changeUserAuthenticationState: (auth) => { dispatch(actions.userAuthenticationActionCreator(auth)) },
+        startUserAuthentication: () => { dispatch(actions.startUserAuthenticationActionCreator()) },
+        finishUserAuthentication: () => { dispatch(actions.finishUserAuthenticationActionCreator()) },
+    });
 
-    return connect(mapStateToProps)(WithAwsAuthentication);
+    return connect(mapStateToProps, mapDispatchToProps)(WithAwsAuthentication);
 };
 
 export default withAwsAuthentication;

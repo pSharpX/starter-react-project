@@ -11,10 +11,10 @@ import RemoveItemPage from '../../pages/item/RemoveItemPage';
 import PrivateRoute from './PrivateRoute';
 import { connect } from 'react-redux';
 
-export const AdminRoutes = ({ authenticated, match }) => (
+export const AdminRoutes = ({ authenticated, authenticating, match }) => (
     <main>
         <Switch>
-            <PrivateRoute path={`${match.url}/`} component={Home} authenticated={authenticated} />
+            <PrivateRoute path={`${match.url}/`} component={Home} authenticated={authenticated} authenticating={authenticating} />
             <Route path={`${match.url}about`} component={About} />
             <Route path={`${match.url}contact`} component={Contact} />
             <PrivateRoute path={`${match.url}item/create`} component={CreateItemPage} authenticated={authenticated} />
@@ -27,7 +27,8 @@ export const AdminRoutes = ({ authenticated, match }) => (
 )
 
 const mapStateToProps = ({ auth }) => ({
-    authenticated: auth.authenticated
+    authenticated: auth.authenticated,
+    authenticating: auth.authenticating,
 });
 
 export default connect(mapStateToProps)(AdminRoutes);

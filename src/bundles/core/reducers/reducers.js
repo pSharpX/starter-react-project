@@ -9,6 +9,7 @@ const appInitialState = {
 };
 
 const authInitialState = {
+    authenticating: false,
     authenticated: false,
     user: undefined,
 };
@@ -21,6 +22,20 @@ export const authReducer = (state = authInitialState, action) => {
                 ...state,
                 authenticated,
                 user,
+            };
+        }
+        case actionTypes.START_USER_AUTHENTICATION: {
+            const authenticating = true;
+            return {
+                ...state,
+                authenticating,
+            };
+        }
+        case actionTypes.FINISH_USER_AUTHENTICATION: {
+            const authenticating = false;
+            return {
+                ...state,
+                authenticating
             };
         }
         default:

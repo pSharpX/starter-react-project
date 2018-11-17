@@ -36,7 +36,13 @@ import {
     faMinus,
     faSignInAlt,
     faSignOutAlt,
-    faSpinner, faCircleNotch, faCog
+    faSpinner, faCircleNotch, faCog,
+    faShieldAlt,
+    faUserShield,
+    faLock,
+    faUnlockAlt,
+    faUserLock,
+    faLockOpen
 } from '@fortawesome/free-solid-svg-icons'
 import App from './App';
 import SignUpContainer from './bundles/pages/auth/SignUpContainer';
@@ -80,7 +86,13 @@ library.add(
     faSpinner,
     faCircleNotch,
     faCog,
-    faStroopwafel);
+    faStroopwafel,
+    faShieldAlt,
+    faUserShield,
+    faLock,
+    faUnlockAlt,
+    faUserLock,
+    faLockOpen);
 
 class AppBase extends Component {
     state = { loading: true, authenticated: false, user: null };

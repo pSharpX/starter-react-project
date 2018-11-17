@@ -7,7 +7,7 @@ import posed, { PoseGroup } from "react-pose";
 import { render, ReactDOM } from "react-dom";
 import styled from "styled-components";
 import { SecureButton } from '../../../core/routing/PrivateRoute';
-import withAutorization from '../../../core/auth/withAutorization';
+import withAuthorization from '../../../core/auth/withAutorization';
 
 const AppIconLink = styled(Link)`
     background-color: #f06659;
@@ -84,4 +84,4 @@ class AppNavbar extends Component {
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAutorization(authCondition)(AppNavbar);
+export default withAuthorization(authCondition)(AppNavbar);
