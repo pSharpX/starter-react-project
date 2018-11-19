@@ -30,7 +30,7 @@ class LogInContainer extends Component {
         isAuthenticated: true,
         user
       });
-      this.props.history.push("/");
+      this.afterSuccessfulLogIn();
     } catch (error) {
       changeUserAuthenticationState({
         isAuthenticated: false,
@@ -38,8 +38,12 @@ class LogInContainer extends Component {
       });
     }
   }
+  afterSuccessfulLogIn = (response) => {
+    console.log(response);
+    this.props.history.push("/");
+  }
   render() {
-    return <LogIn onSubmit={this.handleLogIn} />;
+    return <LogIn onSubmit={this.handleLogIn} afterLogIn={this.afterSuccessfulLogIn} />;
   }
 }
 

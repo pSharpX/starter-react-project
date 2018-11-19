@@ -36,20 +36,15 @@ const withAuthorization = (authCondition) => (Component) => {
         }
         componentWillReceiveProps = (nextProps) => {
             const { authenticating, authenticated, user } = nextProps;
-        }        
+        }
         render() {
             return (
                 <AuthUserContext.Consumer>
-                    {authUser => {
-                        return (authUser) ? <Component {...this.props} /> : <WithoutAuthorization />
-                    }}
+                    {authUser => authUser ? <Component {...this.props} /> : <WithoutAuthorization />}
                 </AuthUserContext.Consumer>
             );
         }
     }
-    // <AuthUserContext.Consumer>
-    //     {authUser => authUser ? <Component {...this.props} /> : <WithoutAuthorization />}
-    // </AuthUserContext.Consumer>
     const mapStateToProps = ({ auth }) => ({ ...auth });
     return compose(
         connect(mapStateToProps),

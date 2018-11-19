@@ -5,6 +5,10 @@ import { render, ReactDOM } from "react-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from "styled-components";
 
+const Button = styled.button`
+    background-color: #4267b2;
+`;
+
 const waitForInit = () => {
     return new Promise((resolve, reject) => {
         const hasFbLoaded = () => {
@@ -18,14 +22,14 @@ const waitForInit = () => {
     });
 };
 
-export const FacebookButton = ({ text = "Sing In", name = "facebookSignInButton", className = "", faIcon = "sign-in-alt", ...rest }) => {
-    className = `btn btn-lg btn-primary ${className}`.trim();
+export const FacebookButton = ({ text = "Sing In", name = "facebookSignInButton", className = "", faIcon = "facebook", ...rest }) => {
+    className = `btn btn-lg btn-primary w-100 ${className}`.trim();
     return (
-        <button
+        <Button
             name={name}
             className={className}
             {...rest}>
-            <FontAwesomeIcon icon={faIcon} className="mr-2" />{text}</button>
+            <FontAwesomeIcon icon={['fab', faIcon]} className="mr-2" />{text}</Button>
     );
 };
 

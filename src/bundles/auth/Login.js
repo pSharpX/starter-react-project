@@ -4,11 +4,13 @@ import posed, { PoseGroup } from "react-pose";
 import { render, ReactDOM } from "react-dom";
 import styled from "styled-components";
 import "./SignUp.css";
+import FacebookSignInContainer from "../common/components/Controls/FacebookButton";
 
 export default class LogIn extends Component {
   componentDidMount = () => { };
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, afterLogIn } = this.props;
+    
     return (
       <form className="form-signin" onSubmit={onSubmit}>
         <div className="text-center mb-4">
@@ -27,6 +29,9 @@ export default class LogIn extends Component {
               Works in latest Chrome, Safari, and Firefox.
             </a>
           </p>
+        </div>
+        <div className="form-label-group">
+          <FacebookSignInContainer onLogin={afterLogIn} />
         </div>
 
         <div className="form-label-group">
@@ -58,7 +63,7 @@ export default class LogIn extends Component {
           </label>
         </div>
         <button className="btn btn-lg btn-primary btn-block" type="submit">
-          <FontAwesomeIcon icon="sign-in-alt" className="mr-2"/>
+          <FontAwesomeIcon icon="sign-in-alt" className="mr-2" />
           Sign in
         </button>
         <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>

@@ -4,6 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './AppBase.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { 
+    faFacebook, 
+    faFacebookSquare, 
+    faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import {
     faStroopwafel,
     faAngleDoubleLeft,
@@ -92,7 +96,10 @@ library.add(
     faLock,
     faUnlockAlt,
     faUserLock,
-    faLockOpen);
+    faLockOpen,
+    faFacebook,
+    faFacebookSquare,
+    faFacebookF);
 
 class AppBase extends Component {
     state = { loading: true, authenticated: false, user: null };
