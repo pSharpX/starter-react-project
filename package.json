@@ -16,7 +16,7 @@
     "firebase": "^5.5.7",
     "fontawesome": "^4.7.2",
     "install": "^0.12.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "materialize-css": "^1.0.0",
     "popper.js": "^1.14.4",
     "prop-types": "15.6.2",
