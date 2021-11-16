@@ -8,5 +8,5 @@
 //     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
 //     messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID
 //   });
-  
-//   export default app; 
+
+//   export default app;

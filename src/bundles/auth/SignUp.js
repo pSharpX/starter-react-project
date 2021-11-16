@@ -1,14 +1,11 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import posed, { PoseGroup } from "react-pose";
-import { render, ReactDOM } from "react-dom";
-import styled from "styled-components";
-import './SignUp.css';
+import React, { Component } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './SignUp.css'
 
 export default class SignUp extends Component {
-  componentDidMount = () => { };
-  render() {
-    const { onSubmit } = this.props;
+  componentDidMount () {}
+  render () {
+    const { onSubmit } = this.props
     return (
       <form className="form-signin" onSubmit={onSubmit}>
         <div className="text-center mb-4">
@@ -21,8 +18,8 @@ export default class SignUp extends Component {
           />
           <h1 className="h3 mb-3 font-weight-normal">Floating labels</h1>
           <p>
-            Build form controls with floating labels via the{" "}
-            <code>:placeholder-shown</code> pseudo-element.{" "}
+            Build form controls with floating labels via the <code>:placeholder-shown</code>{' '}
+            pseudo-element.{' '}
             <a href="https://caniuse.com/#feat=css-placeholder-shown">
               Works in latest Chrome, Safari, and Firefox.
             </a>
@@ -35,8 +32,8 @@ export default class SignUp extends Component {
             id="inputEmail"
             className="form-control"
             placeholder="Email address"
-            required={true}
-            autoFocus={true}
+            required
+            autoFocus
           />
           <label htmlFor="inputEmail">Email address</label>
         </div>
@@ -47,7 +44,7 @@ export default class SignUp extends Component {
             id="inputPassword"
             className="form-control"
             placeholder="Password"
-            required={true}
+            required
           />
           <label htmlFor="inputPassword">Password</label>
         </div>
@@ -63,6 +60,6 @@ export default class SignUp extends Component {
         </button>
         <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
       </form>
-    );
+    )
   }
 }

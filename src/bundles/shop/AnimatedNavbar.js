@@ -1,114 +1,105 @@
-import React, { Component, Children } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Flipper, Flipped } from 'react-flip-toolkit';
-import PropTypes from 'prop-types';
+import React, { Component, Children } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { Flipper, Flipped } from 'react-flip-toolkit'
+import PropTypes from 'prop-types'
 
 const getDropdownRootKeyFrame = ({ animatingOut, direction }) => {
-  if (!animatingOut && direction) return null;
+  if (!animatingOut && direction) return null
   return keyframes`
     from {
-      transform: ${animatingOut ? "rotateX(0)" : "rotateX(-15deg)"};
+      transform: ${animatingOut ? 'rotateX(0)' : 'rotateX(-15deg)'};
       opacity: ${animatingOut ? 1 : 0};
     }
     to {
-      transform: ${animatingOut ? "rotateX(-15deg)" : "rotateX(0)"};
+      transform: ${animatingOut ? 'rotateX(-15deg)' : 'rotateX(0)'};
       opacity: ${animatingOut ? 0 : 1};
     }
-  `;
-};
+  `
+}
 
 const DropdownRoot = styled.div`
-    transform-origin: 0 0;
-    animation-name: ${getDropdownRootKeyFrame};
-    animation-duration: ${props => props.duration}ms;
-    /* use 'forwards' to prevent flicker on leave animation */
-    animation-fill-mode: forwards;
-    /* flex styles will center the caret child component */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    top: -20px;
-  `;
+  transform-origin: 0 0;
+  animation-name: ${getDropdownRootKeyFrame};
+  animation-duration: ${(props) => props.duration}ms;
+  /* use 'forwards' to prevent flicker on leave animation */
+  animation-fill-mode: forwards;
+  /* flex styles will center the caret child component */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -20px;
+`
 const Caret = styled.div`
-    width: 0;
-    height: 0;
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent transparent var(--white);
-    /* make sure it's above the main dropdown container so now box-shadow bleeds over it */
-    z-index: 1;
-    position: relative;
-    /* prevent any gap in between caret and main dropdown */
-    top: 1px;
-  `;
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent var(--white);
+  /* make sure it's above the main dropdown container so now box-shadow bleeds over it */
+  z-index: 1;
+  position: relative;
+  /* prevent any gap in between caret and main dropdown */
+  top: 1px;
+`
 
 const DropdownBackground = styled.div`
-    transform-origin: 0 0;
-    background-color: var(--white);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1),
-      0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
-  `;
+  transform-origin: 0 0;
+  background-color: var(--white);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15),
+    0 5px 15px rgba(0, 0, 0, 0.1);
+`
 
 const AltBackground = styled.div`
-    background-color: var(--grey);
-    width: 200%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: -50%;
-    transform-origin: 0 0;
-    z-index: 0;
-    transition: transform ${props => props.duration}ms;
-  `;
+  background-color: var(--grey);
+  width: 200%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -50%;
+  transform-origin: 0 0;
+  z-index: 0;
+  transition: transform ${(props) => props.duration}ms;
+`
 
 const getFadeContainerKeyFrame = ({ animatingOut, direction }) => {
-  if (!direction) return;
+  if (!direction) return
   return keyframes`
     from {
-      transform: translateX(${
-    animatingOut ? 0 : direction === "left" ? 20 : -20
-    }px);
+      transform: translateX(${animatingOut ? 0 : direction === 'left' ? 20 : -20}px);
     }
     to {
-      transform: translateX(${
-    !animatingOut ? 0 : direction === "left" ? -20 : 20
-    }px);
+      transform: translateX(${!animatingOut ? 0 : direction === 'left' ? -20 : 20}px);
       opacity: ${animatingOut ? 0 : 1};
     }
-  `;
-};
+  `
+}
 
 const FadeContainer = styled.div`
-    animation-name: ${getFadeContainerKeyFrame};
-    animation-duration: ${props => props.duration * 0.75}ms;
-    animation-fill-mode: forwards;
-    position: ${props => (props.animatingOut ? "absolute" : "relative")};
-    opacity: ${props => (props.direction && !props.animatingOut ? 0 : 1)};
-    animation-timing-function: linear;
-    top: 0;
-    left: 0;
-  `;
+  animation-name: ${getFadeContainerKeyFrame};
+  animation-duration: ${(props) => props.duration * 0.75}ms;
+  animation-fill-mode: forwards;
+  position: ${(props) => (props.animatingOut ? 'absolute' : 'relative')};
+  opacity: ${(props) => (props.direction && !props.animatingOut ? 0 : 1)};
+  animation-timing-function: linear;
+  top: 0;
+  left: 0;
+`
 
 export class FadeContents extends Component {
   static propTypes = {
     duration: PropTypes.number,
-    direction: PropTypes.oneOf(["right", "left"]),
+    direction: PropTypes.oneOf(['right', 'left']),
     animatingOut: PropTypes.bool,
     children: PropTypes.node,
     innerRef: PropTypes.func
-  };
-  render() {
-    const {
-      children,
-      duration,
-      animatingOut,
-      innerRef,
-      direction
-    } = this.props;
+  }
+
+  render () {
+    const { children, duration, animatingOut, innerRef, direction } = this.props
     return (
       <FadeContainer
         // prevent screen readers from reading out hidden content
@@ -116,74 +107,70 @@ export class FadeContents extends Component {
         animatingOut={animatingOut}
         direction={direction}
         duration={duration}
-        innerRef={el => {
-          this.el = el;
-          innerRef(el);
+        innerRef={(el) => {
+          this.el = el
+          innerRef(el)
         }}
       >
         {children}
       </FadeContainer>
-    );
+    )
   }
 }
 
-const getFirstDropdownSectionHeight = el => {
-  if (!el) return null;
-  return el.querySelector("*[data-first-dropdown-section]")
-    ? el.querySelector("*[data-first-dropdown-section]").offsetHeight
-    : 0;
-};
+const getFirstDropdownSectionHeight = (el) => {
+  if (!el) return null
+  return el.querySelector('*[data-first-dropdown-section]')
+    ? el.querySelector('*[data-first-dropdown-section]').offsetHeight
+    : 0
+}
 
-const updateAltBackground = ({
-  altBackground,
-  prevDropdown,
-  currentDropdown
-}) => {
-  const prevHeight = getFirstDropdownSectionHeight(prevDropdown);
-  const currentHeight = getFirstDropdownSectionHeight(currentDropdown);
+const updateAltBackground = ({ altBackground, prevDropdown, currentDropdown }) => {
+  const prevHeight = getFirstDropdownSectionHeight(prevDropdown)
+  const currentHeight = getFirstDropdownSectionHeight(currentDropdown)
 
   const immediateSetTranslateY = (el, translateY) => {
-    el.style.transform = `translateY(${translateY}px)`;
-    el.style.transition = "transform 0s";
-    requestAnimationFrame(() => (el.style.transitionDuration = ""));
-  };
+    el.style.transform = `translateY(${translateY}px)`
+    el.style.transition = 'transform 0s'
+    requestAnimationFrame(() => (el.style.transitionDuration = ''))
+  }
 
   if (prevHeight) {
     // transition the grey ("alt") background from its previous height to its current height
-    immediateSetTranslateY(altBackground, prevHeight);
+    immediateSetTranslateY(altBackground, prevHeight)
     requestAnimationFrame(() => {
-      altBackground.style.transform = `translateY(${currentHeight}px)`;
-    });
+      altBackground.style.transform = `translateY(${currentHeight}px)`
+    })
   } else {
     // just immediately set the background to the appropriate height
     // since we don't have a stored value
-    immediateSetTranslateY(altBackground, currentHeight);
+    immediateSetTranslateY(altBackground, currentHeight)
   }
-};
+}
 
 export class DropdownContainer extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     animatingOut: PropTypes.bool,
-    direction: PropTypes.oneOf(["left", "right"]),
+    direction: PropTypes.oneOf(['left', 'right']),
     tweenConfig: PropTypes.shape({
       duration: PropTypes.number,
       easing: PropTypes.string
     })
-  };
+  }
 
-  componentDidMount() {
+  componentDidMount () {
     updateAltBackground({
       altBackground: this.altBackgroundEl,
       prevDropdown: this.prevDropdownEl,
       currentDropdown: this.currentDropdownEl,
       tweenConfig: this.props.tweenConfig
-    });
+    })
   }
 
-  render() {
-    const { children, direction, animatingOut, tweenConfig } = this.props;
-    const [currentDropdown, prevDropdown] = Children.toArray(children);
+  render () {
+    const { children, direction, animatingOut, tweenConfig } = this.props
+    const [currentDropdown, prevDropdown] = Children.toArray(children)
     return (
       <DropdownRoot
         direction={direction}
@@ -198,13 +185,13 @@ export class DropdownContainer extends Component {
             <Flipped inverseFlipId="dropdown" scale>
               <div>
                 <AltBackground
-                  innerRef={el => (this.altBackgroundEl = el)}
+                  innerRef={(el) => (this.altBackgroundEl = el)}
                   duration={tweenConfig.duration}
                 />
                 <FadeContents
                   direction={direction}
                   duration={tweenConfig.duration}
-                  innerRef={el => (this.currentDropdownEl = el)}
+                  innerRef={(el) => (this.currentDropdownEl = el)}
                 >
                   {currentDropdown}
                 </FadeContents>
@@ -213,7 +200,7 @@ export class DropdownContainer extends Component {
                     animatingOut
                     direction={direction}
                     duration={tweenConfig.duration}
-                    innerRef={el => (this.prevDropdownEl = el)}
+                    innerRef={(el) => (this.prevDropdownEl = el)}
                   >
                     {prevDropdown}
                   </FadeContents>
@@ -223,7 +210,7 @@ export class DropdownContainer extends Component {
           </DropdownBackground>
         </Flipped>
       </DropdownRoot>
-    );
+    )
   }
 }
 
@@ -232,11 +219,11 @@ const Heading = styled.h3`
   font-weight: bold;
   font-size: 1.1rem;
   margin-top: 0;
-  margin-bottom: ${props => (props.noMarginBottom ? 0 : "1rem")};
-  color: ${({ color }) => (color ? `var(--${color})` : "var(--blue)")};
-`;
+  margin-bottom: ${(props) => (props.noMarginBottom ? 0 : '1rem')};
+  color: ${({ color }) => (color ? `var(--${color})` : 'var(--blue)')};
+`
 
-const HeadingLink = Heading.withComponent("li");
+const HeadingLink = Heading.withComponent('li')
 
 const LinkList = styled.ul`
   li {
@@ -247,8 +234,8 @@ const LinkList = styled.ul`
     margin-bottom: 0;
   }
 
-  margin-left: ${props => (props.marginLeft ? props.marginLeft : 0)};
-`;
+  margin-left: ${(props) => (props.marginLeft ? props.marginLeft : 0)};
+`
 
 const Icon = styled.div`
   width: 13px;
@@ -257,21 +244,20 @@ const Icon = styled.div`
   background-color: var(--blue);
   opacity: 0.8;
   display: inline-block;
-`;
+`
 
 const DropdownSection = styled.div`
   padding: var(--spacer);
   position: relative;
   z-index: 1;
-`;
+`
 
 const CompanyDropdownEl = styled.div`
   width: 18.5rem;
-`;
+`
 
-const CompanyDropdown = () => {
-  return (
-    <CompanyDropdownEl>
+const CompanyDropdown = function () {
+  return <CompanyDropdownEl>
       <DropdownSection data-first-dropdown-section>
         <ul>
           <HeadingLink>
@@ -281,17 +267,20 @@ const CompanyDropdown = () => {
           </HeadingLink>
           <HeadingLink>
             <a href="/">
-              <Icon />Customers
+              <Icon />
+              Customers
             </a>
           </HeadingLink>
           <HeadingLink>
             <a href="/">
-              <Icon />Jobs
+              <Icon />
+              Jobs
             </a>
           </HeadingLink>
           <HeadingLink noMarginBottom>
             <a href="/">
-              <Icon />Environment
+              <Icon />
+              Environment
             </a>
           </HeadingLink>
         </ul>
@@ -299,7 +288,8 @@ const CompanyDropdown = () => {
       <DropdownSection>
         <div>
           <Heading>
-            <Icon />From the Blog
+            <Icon />
+            From the Blog
           </Heading>
           <LinkList marginLeft="25px">
             <li>
@@ -315,23 +305,21 @@ const CompanyDropdown = () => {
         </div>
       </DropdownSection>
     </CompanyDropdownEl>
-  );
-};
+}
 
 const DevelopersDropdownEl = styled.div`
   width: 25rem;
-`;
+`
 
 const Flex = styled.div`
   display: flex;
   > div:first-of-type {
     margin-right: 48px;
   }
-`;
+`
 
-const DevelopersDropdown = () => {
-  return (
-    <DevelopersDropdownEl>
+const DevelopersDropdown = function () {
+  return <DevelopersDropdownEl>
       <DropdownSection data-first-dropdown-section>
         <div>
           <Heading>Documentation</Heading>
@@ -388,12 +376,11 @@ const DevelopersDropdown = () => {
         </ul>
       </DropdownSection>
     </DevelopersDropdownEl>
-  );
-};
+}
 
 const ProductsDropdownEl = styled.div`
   width: 29rem;
-`;
+`
 
 const Logo = styled.div`
   width: 38px;
@@ -402,7 +389,7 @@ const Logo = styled.div`
   border-radius: 100%;
   opacity: 0.6;
   background-color: ${({ color }) => `var(--${color})`};
-`;
+`
 
 const SubProductsList = styled.ul`
   li {
@@ -417,13 +404,13 @@ const SubProductsList = styled.ul`
   a {
     color: var(--dark-grey);
   }
-`;
+`
 
 const ProductsSection = styled.ul`
   li {
     display: flex;
   }
-`;
+`
 
 const WorksWithStripe = styled.div`
  border-top: 2px solid #fff;
@@ -436,11 +423,10 @@ const WorksWithStripe = styled.div`
 h3 {
   margin-bottom: 0;
 }
-`;
+`
 
-const ProductsDropdown = () => {
-  return (
-    <ProductsDropdownEl>
+const ProductsDropdown = function () {
+  return <ProductsDropdownEl>
       <DropdownSection data-first-dropdown-section>
         <ProductsSection>
           <li>
@@ -467,9 +453,7 @@ const ProductsDropdown = () => {
             </div>
             <div>
               <Heading color="teal">Connect</Heading>
-              <p style={{ marginBottom: 0 }}>
-                Everything platforms need to get sellers paid
-              </p>
+              <p style={{ marginBottom: 0 }}>Everything platforms need to get sellers paid</p>
             </div>
           </li>
         </ProductsSection>
@@ -498,8 +482,7 @@ const ProductsDropdown = () => {
         </WorksWithStripe>
       </DropdownSection>
     </ProductsDropdownEl>
-  );
-};
+}
 
 const NavbarItemTitle = styled.button`
   background-color: transparent;
@@ -520,137 +503,123 @@ const NavbarItemTitle = styled.button`
     opacity: 0.7;
     outline: none;
   }
-`;
+`
 
 const NavbarItemEl = styled.li`
   position: relative;
   cursor: pointer;
-`;
+`
 
 const DropdownSlot = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   perspective: 1500px;
-`;
+`
 
 export class NavbarItem extends Component {
   onMouseEnter = () => {
-    this.props.onMouseEnter(this.props.index);
-  };
+    this.props.onMouseEnter(this.props.index)
+  }
 
-  render() {
-    const { title, children } = this.props;
+  render () {
+    const { title, children } = this.props
     return (
       <NavbarItemEl>
-        <NavbarItemTitle
-          onMouseEnter={this.onMouseEnter}
-          onFocus={this.onMouseEnter}
-        >
+        <NavbarItemTitle onMouseEnter={this.onMouseEnter} onFocus={this.onMouseEnter}>
           {title}
         </NavbarItemTitle>
         <DropdownSlot>{children}</DropdownSlot>
       </NavbarItemEl>
-    );
+    )
   }
 }
 
 const NavbarEl = styled.nav`
   margin: auto;
-`;
+`
 
 const NavbarList = styled.ul`
   display: flex;
   justify-content: center;
   list-style: none;
   margin: 0;
-`;
+`
 
 export class Navbar extends Component {
-  render() {
-    const { children, onMouseLeave } = this.props;
+  render () {
+    const { children, onMouseLeave } = this.props
     return (
       <NavbarEl onMouseLeave={onMouseLeave}>
         <NavbarList>{children}</NavbarList>
       </NavbarEl>
-    );
+    )
   }
 }
 
 const navbarConfig = [
-  { title: "Products", dropdown: ProductsDropdown },
-  { title: "Developers", dropdown: DevelopersDropdown },
-  { title: "Company", dropdown: CompanyDropdown }
-];
+  { title: 'Products', dropdown: ProductsDropdown },
+  { title: 'Developers', dropdown: DevelopersDropdown },
+  { title: 'Company', dropdown: CompanyDropdown }
+]
 
 export default class AnimatedNavbar extends Component {
   state = {
     activeIndices: []
-  };
+  }
 
-  resetDropdownState = i => {
+  resetDropdownState = (i) => {
     this.setState({
-      activeIndices: typeof i === "number" ? [i] : [],
+      activeIndices: typeof i === 'number' ? [i] : [],
       animatingOut: false
-    });
-    delete this.animatingOutTimeout;
-  };
+    })
+    delete this.animatingOutTimeout
+  }
 
-  onMouseEnter = i => {
+  onMouseEnter = (i) => {
     if (this.animatingOutTimeout) {
-      clearTimeout(this.animatingOutTimeout);
-      this.resetDropdownState(i);
-      return;
+      clearTimeout(this.animatingOutTimeout)
+      this.resetDropdownState(i)
+      return
     }
-    if (this.state.activeIndices[this.state.activeIndices.length - 1] === i)
-      return;
+    if (this.state.activeIndices[this.state.activeIndices.length - 1] === i) return
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       activeIndices: prevState.activeIndices.concat(i),
       animatingOut: false
-    }));
-  };
-  onMouseLeave = ev => {
+    }))
+  }
+
+  onMouseLeave = (ev) => {
     this.setState({
       animatingOut: true
-    });
-    this.animatingOutTimeout = setTimeout(
-      this.resetDropdownState,
-      this.props.tweenConfig.duration
-    );
-  };
+    })
+    this.animatingOutTimeout = setTimeout(this.resetDropdownState, this.props.tweenConfig.duration)
+  }
 
-  render() {
-    const { tweenConfig } = this.props;
+  render () {
+    const { tweenConfig } = this.props
 
-    let CurrentDropdown;
-    let PrevDropdown;
-    let direction;
+    let CurrentDropdown
+    let PrevDropdown
+    let direction
 
-    const currentIndex = this.state.activeIndices[
-      this.state.activeIndices.length - 1
-    ];
+    const currentIndex = this.state.activeIndices[this.state.activeIndices.length - 1]
     const prevIndex =
       this.state.activeIndices.length > 1 &&
-      this.state.activeIndices[this.state.activeIndices.length - 2];
+      this.state.activeIndices[this.state.activeIndices.length - 2]
 
-    if (typeof currentIndex === "number")
-      CurrentDropdown = navbarConfig[currentIndex].dropdown;
-    if (typeof prevIndex === "number") {
-      PrevDropdown = navbarConfig[prevIndex].dropdown;
-      direction = currentIndex > prevIndex ? "right" : "left";
+    if (typeof currentIndex === 'number') CurrentDropdown = navbarConfig[currentIndex].dropdown
+    if (typeof prevIndex === 'number') {
+      PrevDropdown = navbarConfig[prevIndex].dropdown
+      direction = currentIndex > prevIndex ? 'right' : 'left'
     }
 
     return (
       <Flipper flipKey={currentIndex} {...tweenConfig}>
         <Navbar onMouseLeave={this.onMouseLeave}>
-          {navbarConfig.map((n, index) => {
-            return (
-              <NavbarItem
-                title={n.title}
-                index={index}
-                onMouseEnter={this.onMouseEnter}
-              >
+          {navbarConfig.map((n, index) => (
+              <NavbarItem title={n.title} index={index} onMouseEnter={this.onMouseEnter}>
                 {currentIndex === index && (
                   <DropdownContainer
                     direction={direction}
@@ -662,11 +631,10 @@ export default class AnimatedNavbar extends Component {
                   </DropdownContainer>
                 )}
               </NavbarItem>
-            );
-          })}
+          ))}
         </Navbar>
       </Flipper>
-    );
+    )
   }
 }
 
@@ -696,7 +664,7 @@ const Form = styled.form`
   label + label input {
     margin-left: 1.5rem;
   }
-`;
+`
 
 const AnimatedNavbarContainer = styled.div`
   background: #53f;
@@ -707,4 +675,4 @@ const AnimatedNavbarContainer = styled.div`
   > div:first-of-type {
     flex: 1 0 70vh;
   }
-`;
+`

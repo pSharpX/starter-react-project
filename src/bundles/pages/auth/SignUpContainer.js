@@ -1,22 +1,26 @@
-import React, { Component } from "react";
-import SignUp from "../../auth/SignUp";
-import { auth } from '../../core/auth';
+import React, { Component } from 'react'
+import SignUp from '../../auth/SignUp'
+import { auth } from '../../core/auth'
 
 class SignUpContainer extends Component {
-  componentDidMount = () => { };
+  componentDidMount () {}
   handleSignUp = async (event) => {
-    event.preventDefault();
-    const { inputEmail, inputPassword } = event.target.elements;
+    event.preventDefault()
+    const { inputEmail, inputPassword } = event.target.elements
     try {
-      const user = await auth.doCreateUserWithEmailAndPassword(inputEmail.value, inputPassword.value);
-      this.props.history.push("/");
+      const user = await auth.doCreateUserWithEmailAndPassword(
+        inputEmail.value,
+        inputPassword.value
+      )
+      this.props.history.push('/')
     } catch (error) {
-      alert(error);
+      alert(error)
     }
   }
-  render() {
-    return <SignUp onSubmit={this.handleSignUp} />;
+
+  render () {
+    return <SignUp onSubmit={this.handleSignUp} />
   }
 }
 
-export default SignUpContainer;
+export default SignUpContainer

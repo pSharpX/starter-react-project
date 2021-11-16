@@ -20,12 +20,12 @@ const config = {
       API_VERSION: process.env.REACT_APP_FACEBOOK_API_VERSION
     }
   }
-};
+}
 
-export default config;
+export default config
 
 /**
- * 
+ *
  * aws cognito-idp sign-up --region us-east-1 --client-id 7pomsjd06121c11ivdknnc3ern --username guardian2093@gmail.com --password password123
     aws cognito-idp admin-confirm-sign-up --region us-east-1 --user-pool-id us-east-1_OBg5w0Ds8 --username guardian2093@gmail.com
  */
