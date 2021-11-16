@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firebase } from './index';
 import {
@@ -47,8 +46,7 @@ const withAuthorization = (authCondition) => (Component) => {
     }
     const mapStateToProps = ({ auth }) => ({ ...auth });
     return compose(
-        connect(mapStateToProps),
-        withRouter
+        connect(mapStateToProps)
     )(WithAuthorization);
 };
 
