@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router";
 import { connect } from 'react-redux';
 import {
   compose,
@@ -53,6 +52,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
+  connect(mapStateToProps, mapDispatchToProps)
 )(LogInContainer);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router';
+import { Routes, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 
 import './AppBase.css';
@@ -105,12 +105,12 @@ class AppBase extends Component {
     state = { loading: true, authenticated: false, user: null };
     render = () =>
         <BrowserRouter>
-            <Switch>
+            <Routes>
                 <Route path="/login" component={LogInContainer} />
                 <Route path="/signup" component={SignUpContainer} />
                 <Route exact path="" component={App} />
                 <Route path="*" component={NotFound} />
-            </Switch>
+            </Routes>
         </BrowserRouter>
 }
 

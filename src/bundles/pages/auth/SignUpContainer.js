@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router";
 import SignUp from "../../auth/SignUp";
 import { auth } from '../../core/auth';
 
@@ -20,4 +19,4 @@ class SignUpContainer extends Component {
   }
 }
 
-export default withRouter(SignUpContainer);
+export default SignUpContainer;

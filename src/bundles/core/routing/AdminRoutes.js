@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import About from '../../common/components/About/About';
 import Contact from '../../common/components/Contact/Contact';
 import Home from '../../common/Home/Home';
@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 export const AdminRoutes = ({ authenticated, authenticating, match }) => (
     <main>
-        <Switch>
+        <Routes>
             <PrivateRoute path={`${match.url}/`} component={Home} authenticated={authenticated} authenticating={authenticating} />
             <Route path={`${match.url}about`} component={About} />
             <Route path={`${match.url}contact`} component={Contact} />
@@ -22,7 +22,7 @@ export const AdminRoutes = ({ authenticated, authenticating, match }) => (
             <Route path={`${match.url}item/delete/:id`} component={RemoveItemPage} />
             <Route path={`${match.url}item/:id`} component={ItemDetail} />
             <Route path={`${match.url}checkout`} component={Checkout} />
-        </Switch>
+        </Routes>
     </main>
 )
 

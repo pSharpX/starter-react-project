@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Route, Navigate } from "react-router-dom";
 import { auth } from '../auth';
 import * as awsAuth from '../auth/aws-auth';
 import { connect } from 'react-redux';
@@ -25,7 +24,7 @@ const PrivateRoute = ({
                 authenticated === true ? (
                     <Component {...props} {...rest} />
                 ) : (
-                        <Redirect to="/login" />
+                        <Navigate to="/login" />
                     )
             )
         }
@@ -38,7 +37,7 @@ const PrivateRoute = ({
 const SecureRoute = ({ component: Component, authenticated, ...rest }) => (
     <Route {...rest} render={(props) => (
         authenticated === true ?
-            <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            <Component {...props} /> : <Navigate to={{ pathname: '/login', state: { from: props.location } }} />
     )} />
 );
 
@@ -55,4 +54,4 @@ const AuthButton = ({ authenticated, history, ...rest }) => (
 
 export default PrivateRoute;
 export const ProtectedRoute = connect(({ auth }) => ({ authenticated: auth.authenticated }))(SecureRoute);
-export const SecureButton = withRouter(connect(({ auth }) => ({ authenticated: auth.authenticated }))(AuthButton));
+export const SecureButton = connect(({ auth }) => ({ authenticated: auth.authenticated }))(AuthButton);
